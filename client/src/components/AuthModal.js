@@ -26,25 +26,27 @@ const AuthModal = ({setShowModal, isSignup}) => {
                 return
             }
 
-            const response = await axios.post(`http://localhost:8000/${isSignup ? 'signup' : 'login'}`, {email, password})
+            const response = await axios.post(`http://localhost:3030/authenticate/${isSignup ? 'signup' : 'login'}`, {email, password})
             
             setCookie('AuthToken', response.data.token)
             setCookie('UserId', response.data.userId)
-            const success = response.status === 201
-            
-            if (success && isSignup) navigate('/onboarding')
-            if (success && !isSignup) navigate('/dashboard')
 
-            window.location.reload()
+            console.log(response.data)
+
+            if (response.data === 'Username not exist' || response.data === 'Invalid Credential') {
+                setError(response.data)
+            } else {
+                const success = response.data.token !== undefined
+                if (success && isSignup) navigate('/onboarding')
+                if (success && !isSignup) navigate('/dashboard')
+
+                window.location.reload()
+            }
+
+            
             
         } catch (error) {
             console.log(error)
-            if (error.request.status === 409) {
-                console.log(error.response.data)
-                setError(error.response.data)
-            } else if (error.request.status === 400) {
-                setError(error.response.data)
-            }
         }
     }
 

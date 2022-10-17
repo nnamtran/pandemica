@@ -4,10 +4,12 @@ import { useCookies } from "react-cookie"
 
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
+import axios from "axios";
 
 import readingInstruction from "../images/reading-instruction.png"
 const PositiveResult = () => {
     const [isLogin, setIsLogin] = useState(true)
+    const [successM, setSuccess] = useState('')
     const [formData, setFormData] = useState({
         day: "",
         month: "",
@@ -21,9 +23,7 @@ const PositiveResult = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['user'])
 
     const url = cookies.Profile
-    const fullName = cookies.FullName;
-    const email = cookies.Email;
-    const mobile = cookies.Mobile;
+    
 
     const handleChange = (e) => {
         console.log('e', e);
@@ -36,8 +36,22 @@ const PositiveResult = () => {
         }))
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async (e) => {
         console.log('eee')
+        e.preventDefault();
+        console.log(formData)
+
+        try {
+            const response = await axios.post('http://localhost:3030/register/positive', {formData})
+
+            console.log(response)
+            const success = response.status === 200
+            if (success) {
+                setSuccess('Submitted!')
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -149,6 +163,7 @@ const PositiveResult = () => {
                             /><label htmlFor="confirm">I have read the Privacy Collection Notice and understand that Service NSW may lawfully retain, use and disclose personal and health information about me to NSW Health, and NSW Health may contact me or share this with third parties, to provide me with appropriate health information for my circumstances, and to plan and provide appropriate health services informed by numbers and locations of positive COVID-19 cases.</label>
                         </section>
                         <input type="submit"/>
+                        <p>{successM}</p>
                     </form>
                 </div>
                 <div className="instruction">

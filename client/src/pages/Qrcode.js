@@ -4,26 +4,50 @@ import { useCookies } from "react-cookie"
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 import QRCode from 'qrcode';
+import axios from "axios";
 
 
 const Qrcode = () => {
     const [isLogin, setIsLogin] = useState(true);
-    const [qr, setQr] = useState('');
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const [qr, setQr] = useState('');
+    const [successM, setSuccess] = useState('')
+
+    const [formData, setFormData] = useState({
+        user_id: cookies.UserId,
+        name: "",
+        email: "",
+        mobile: "",
+        time: new Date().toString(),
+        location: "Northfields Ave, Keiraville NSW 2522"
+    })
 
     const url = cookies.Profile;
-    const fullName = cookies.FullName;
-    const email = cookies.Email;
-    const mobile = cookies.Mobile;
 
 
-    const handleChange = () => {
-        console.log('hello');
+    const handleChange = (e) => {
+        const value = e.target.value;
+        const name = e.target.name;
+        setFormData((prevState) => ({
+            ...prevState,
+            [name]: value
+        }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        console.log('submitted')
         e.preventDefault();
-        console.log('hello');
+        try {
+            const response = await axios.post('http://localhost:3030/checkin/location', {formData})
+
+            console.log(response)
+            const success = response.status === 200
+            if (success) {
+                setSuccess('You are checked in!')
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     const handleGenerate = () => {
@@ -37,7 +61,6 @@ const Qrcode = () => {
 		}, (err, url) => {
 			if (err) return console.error(err)
 
-			console.log(url)
 			setQr(url)
 		})
     }
@@ -51,36 +74,37 @@ const Qrcode = () => {
                         <h2>LOCATION CHECK-IN</h2>
                         <form onSubmit={handleSubmit}>
                             <section>
-                                <label htmlFor="first_name">Full Name</label>
+                                <label htmlFor="name">Full Name</label>
                                 <input 
-                                    id="first_name"
+                                    id="name"
                                     type="text"
-                                    name="first_name"
+                                    name="name"
                                     placeholder="Full Name"
+                                    value={formData.name}
                                     required={true}
-                                    defaultValue={fullName}
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="address">Email</label>
+                                <label htmlFor="email">Email</label>
                                 <input 
-                                    id="address"
+                                    id="email"
                                     type="text"
-                                    name="address"
+                                    name="email"
                                     required={true}
-                                    placeholder="e.g. 123 Sample Street, SUBURB NSW 2000"
-                                    defaultValue={email}
+                                    placeholder="mail@mail.com"
+                                    value={formData.email}
                                     onChange={handleChange}
                                 />
                                 <label htmlFor="mobile">Phone number</label>
                                 <input 
                                     id="mobile"
-                                    type="text"
+                                    type="number"
                                     name="mobile"
                                     required={true}
-                                    defaultValue={mobile}
+                                    value={formData.mobile}
                                     onChange={handleChange}
                                 />
                                 <input type="submit"/>
+                                <p>{successM}</p>
                             </section>
                         </form>
                     </div>
@@ -99,7 +123,6 @@ const Qrcode = () => {
                             onChange={(e) => {
                                 const value = e.target.value;
                                 setQr(value);
-                                console.log(qr)
                             }}
                         />
                         <button onClick={handleGenerate}>Generate</button>

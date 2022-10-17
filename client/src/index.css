@@ -299,7 +299,7 @@ nav .tab-container .header-navigation-link:hover::after {
 }
 
 .dashboard .service-container .service-headline {
-    width: 80%;
+    width: 90%;
     height: 50vh;
     display: flex;
     justify-content: center;
@@ -311,10 +311,11 @@ nav .tab-container .header-navigation-link:hover::after {
     background: url(./images/doctor.jpeg) center no-repeat;
     background-size: cover;
     margin: 8vh 0;
+    overflow: hidden;
 }
 
 .dashboard .service-container .service-box {
-    width: 75%;
+    width: 90%;
     height: 75vh;
     display: flex;
     align-items: center;
@@ -324,37 +325,38 @@ nav .tab-container .header-navigation-link:hover::after {
 .dashboard .service-container .service-box .service {
     background-color: #f6f9fa;
     width: 30%;
-    height: 85%;
+    height: 100%;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 }
 
 .dashboard .service-container .service-box .service:hover{
     background-color: #41c3ff;
     transition: all 0.4s ease-in;
     cursor: pointer;
-    color: #ffffff
+    color: #ffffff;
 }
 
 .service-box .service .service-photo {
-    width: 300px;
-    height: 200px;
+    width: 80%;
+    height: 50%;
     margin-top: 20px;
     border-radius: 20px;
 }
 
 .service-box .service .service-photo1 {
-    width: 325px;
-    height: 200px;
+    width: 80%;
+    height: 50%;
     margin-top: 20px;
     border-radius: 20px;
 }
 
 .service-box .service .service-photo2 {
-    width: 325px;
-    height: 200px;
+    width: 80%;
+    height: 50%;
     margin-top: 20px;
     border-radius: 20px;
 }
@@ -372,6 +374,9 @@ nav .tab-container .header-navigation-link:hover::after {
 
 .service-box .service-content p {
     color: #7b7b7b;
+    padding: 0 20px;
+    font-size: 0.8em;
+    opacity: 0.5;
 }
 
 /* Footer */
@@ -382,6 +387,7 @@ nav .tab-container .header-navigation-link:hover::after {
     color: #ffffff;
     background-color: #0d2742;
     position: absolute;
+    overflow: hidden;
 }
 
 .footer .footer-container {
@@ -757,13 +763,13 @@ form .confirm-checkbox label {
 /* Contact Tracing */
 .contactTracing-container {
     background-color: #012B44;
-    height: 100vh;
+    height: 120vh;
     width: 100%;
 }
 
 .contactTracing-container .contactTracing {
     background-color: #ffffff;
-    height: 75%;
+    height: 85%;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -771,7 +777,7 @@ form .confirm-checkbox label {
 }
 
 .contactTracing-form {
-    width: 50%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -823,7 +829,7 @@ form .confirm-checkbox label {
 }
 
 .contactTracing .result {
-    width: 50%;
+    width: 60%;
     height: 100%;
     background-color: #f1fbff;
     border-radius: 30px 0 0 30px;
@@ -831,4 +837,13 @@ form .confirm-checkbox label {
 
 .contactTracing .result h2 {
     padding: 40px 0;
+}
+
+.contactTracing .result table,
+.contactTracing .result table th,
+.contactTracing .result table td {
+    border: 1px solid black;
+    margin: 0px 0px;
+    padding: 5px 5px;
+    font-size: 14px;
 }
